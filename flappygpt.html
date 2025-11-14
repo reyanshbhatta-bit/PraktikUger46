@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flappy Bird Clone</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(to bottom, #4ec0ca, #ffffff);
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+  }
+
+  h1 {
+    color: #222;
+    margin-top: 20px;
+  }
+
+  #gameContainer {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    margin: 30px auto;
+    background: linear-gradient(to bottom, #87CEEB, #fff);
+    border: 2px solid #333;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  #bird {
+    position: absolute;
+    width: 40px;
+    height: 30px;
+    background: yellow;
+    border-radius: 50% 50% 40% 40%;
+    left: 50px;
+    top: 200px;
+  }
+
+  .pipe {
+    position: absolute;
+    width: 60px;
+    background: linear-gradient(to bottom, #228B22, #006400);
+    left: 400px;
+  }
+
+  #score {
+    font-size: 1.5em;
+    color: #333;
+  }
+
+  #gameOver {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    color: red;
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <h1>🐤 Flappy Bird Clone</h1>
+  <div id="gameContainer">
+    <div id="bird"></div>
+    <div id="gameOver">Game Over!<br><button onclick="restartGame()">Restart</button></div>
+  </div>
+  <p id="score">Score: 0</p>
+
+<script>
+  const bird = document.getElementById("bird");
+  const gameContainer = document.getElementById("gameContainer");
+  const scoreDisplay = document.getElementById("score");
+  const gameOverText = document.getElementById("gameOver");
+
+  let birdTop = 200;
+  let gravity = 2;
+  let velocity = 0;
+  let isGameOver = false;
+  let score = 0;
+  let pipeInterval;
+  let gameLoop;
+
+  // Make bird jump
+  document.body.addEventListener("keydown", () => {
+    if (!isGameOver) velocity = -8;
+  });
+  document.body.addEventListener("click", () => {
+    if (!isGameOver) velocity = -8;
+  });
+
+  function startGame() {
+    // Reset
+    isGameOver = false;
+    score = 0;
+    scoreDisplay.textContent = "Score: 0";
+    birdTop = 200;
+    velocity = 0;
+    gameOverText.style.display = "none";
+
+    // Clear pipes
+    document.querySelectorAll(".pipe").forEach(pipe => pipe.remove());
+
+    // Start loops
+    gameLoop = setInterval(updateGame, 20);
+    pipeInterval = setInterval(createPipes, 2000);
+  }
+
+  function updateGame() {
+    if (isGameOver) return;
+
+    velocity += gravity * 0.5;
+    birdTop += velocity;
+    bird.style.top = birdTop + "px";
+
+    // Bird boundaries
+    if (birdTop <= 0 || birdTop >= 470) {
+      endGame();
+    }
+
+    // Move pipes
+    document.querySelectorAll(".pipe").forEach(pipe => {
+      let left = parseInt(pipe.style.left);
+      pipe.style.left = left - 3 + "px";
+
+      // Remove pipes off-screen
+      if (left < -60) pipe.remove();
+
+      // Collision detection
+      const birdRect = bird.getBoundingClientRect();
+      const pipeRect = pipe.getBoundingClientRect();
+      const containerRect = gameContainer.getBoundingClientRect();
+
+      if (
+        birdRect.left < pipeRect.right &&
+        birdRect.right > pipeRect.left &&
+        birdRect.top < pipeRect.bottom &&
+        birdRect.bottom > pipeRect.top
+      ) {
+        endGame();
+      }
+
+      // Increase score when bird passes pipe
+      if (left === 47) {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+      }
+    });
+  }
+
+  function createPipes() {
+    const pipeGap = 120;
+    const pipeHeight = Math.floor(Math.random() * 200) + 50;
+
+    const topPipe = document.createElement("div");
+    topPipe.classList.add("pipe");
+    topPipe.style.height = pipeHeight + "px";
+    topPipe.style.top = "0px";
+    topPipe.style.left = "400px";
+
+    const bottomPipe = document.createElement("div");
+    bottomPipe.classList.add("pipe");
+    bottomPipe.style.height = 500 - pipeHeight - pipeGap + "px";
+    bottomPipe.style.bottom = "0px";
+    bottomPipe.style.left = "400px";
+
+    gameContainer.appendChild(topPipe);
+    gameContainer.appendChild(bottomPipe);
+  }
+
+  function endGame() {
+    isGameOver = true;
+    clearInterval(gameLoop);
+    clearInterval(pipeInterval);
+    gameOverText.style.display = "block";
+  }
+
+  function restartGame() {
+    startGame();
+  }
+
+  // Start the game
+  startGame();
+</script>
+</body>
+</html>

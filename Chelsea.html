@@ -1,0 +1,246 @@
+<html>
+
+<Head>
+<form
+    <title>London is always and forever blue</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        .outlined {
+            border: solid;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+</Head>
+
+<body style="background-color: #ffffff;">
+    <a href="index.html">Home</a>
+    <h1 style="text-align:center; color:blue;"> Chelsea FC Statistics</h1>
+    <hr />
+    <a href="https://www.youtube.com/watch?v=6jWNcraW4Go">Goat</a>
+    <table style="width:100%">
+
+        <tr>
+            <th colspan="3">Goals and Assists</th>
+        </tr>
+        <tr>
+            <td>Eden Hazard</td>
+            <td>Didier Drogba</td>
+            <td>Frank Lampard</td>
+        </tr>
+        <tr>
+            <td>110 Goals 92 Assists</td>
+            <td>164 Goals 86 Assists</td>
+            <td>211 Goals 97 Assists</td>
+        </tr>
+        <tr>
+            <td>Belgium</td>
+            <td>Ivory Coast</td>
+            <td>England</td>
+        </tr>
+        <tr>
+            <td>Left Winger</td>
+            <td>Striker</td>
+            <td>Attacking Midfielder</td>
+        </tr>
+        <tr>
+            <td>Age 34</td>
+            <td>Age 47</td>
+            <td>Age 47</td>
+        </tr>
+        <tr>
+            <td>1st club Lile</td>
+            <td>1st club Le Mans</td>
+            <td>1st club West Ham</td>
+        </tr>
+        <tr>
+            <td>Retired</td>
+            <td>Retired</td>
+            <td>Retired</td>
+        </tr>
+        <tr>
+            <td>202 G/A</td>
+            <td>250 G/A</td>
+            <td>308 G/</td>
+        </tr>
+        <tr>
+            <td>Football Career started in 2007</td>
+            <td>Football Career started in 1988</td>
+            <td>Football Career started in 1995</td>
+        </tr>
+
+
+
+
+    </table>
+    <img src="Chelsea_FC.svg.png" width="200px" height="200px" />
+    <p style="color:blue;">London is blue</p>
+    <p style="color:red;">Gunners suck</p>
+    <marquee direction="down" width="250" height="200" behavior="alternate" class="outlined">
+        <marquee behavior="alternate">&#9917;</marquee>
+        <marquee direction="up"></marquee>
+    </marquee>
+    <form action="https://store.chelseafc.com/en/">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="Cole"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Palmer"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <p>If you click the "Submit" button, the form-data will be sent to a page called "Chelsea Store".</p>
+    <h2>The Chelsea G.O.A.T.S</h2>
+
+    <p>Choose The G.O.A.T.S:</p>
+
+    <form action="https://store.chelseafc.com/en/">
+        <label for="players">Choose a Player:</label>
+        <select id="players" name="players">
+            <option value="">Hazard</option>
+            <option value="">Drogba</option>
+            <option value="">Lampard</option>
+        </select>
+        <input type="submit">
+    </form>
+    <h2>Player Option</h2>
+
+    <p>Choose the players.</p>
+
+    <form action="https://store.chelseafc.com/en/">
+        <label for="Players">Choose a Player:</label>
+        <select id="cars" name="cars" size="3">
+            <option value="">Hazard</option>
+            <option value="">Drogba</option>
+            <option value="">Lampard</option>
+        </select><br><br>
+        <input type="submit">
+    </form>
+    <h2>Player Buttons</h2>
+
+    <p>Choose your favourite Player:</p>
+
+    <form>
+        <input type="radio" id="Hazard" name="fav_language" value="">
+        <label for="Hazard">Hazard</label><br>
+        <input type="radio" id="Drogba" name="fav_language" value="">
+        <label for="Drogba">Drogba</label><br>
+        <input type="radio" id="Lampard" name="fav_language" value="">
+        <label for="Lampard">Lampard</label>
+    </form>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Style the header */
+        header {
+            background-color: #0015ff;
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 30%;
+            height: 300px;
+            /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 70%;
+            background-color: #656dc2;
+            height: 300px;
+            /* only for demonstration, should be removed */
+        }
+
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Style the footer */
+        footer {
+            background-color: #37269a;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+
+            nav,
+            article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+    </head>
+
+    <body>
+
+
+        <header>
+            <h2>Stadiums</h2>
+        </header>
+
+        <section>
+            <nav>
+                <ul>
+                    <li><a href="#">Wembley</a></li>
+                    <li><a href="#">Anfield</a></li>
+                    <li><a href="#">Old Trafford</a></li>
+                </ul>
+            </nav>
+
+            <article>
+                <h1>Stamford Bridge</h1>
+                <p>Stamford Bridge is a stadium with a capacity of 40,341 seats.</p>
+                <p>Stamford Bridge was built in 1876, and it is owned by Chelsea.</p>
+                <p>Stamford Bridge remains one of the oldest Football stadiums in the UK.</p>
+            </article>
+        </section>
+
+        <footer>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/1z8xC4cnsxA?si=JeiqI_tUNQ9e0vdN"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </footer>
+
+
+
+
+    </body>
+
+</html>

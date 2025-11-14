@@ -1,0 +1,223 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>⚽ Football Penalty & Free Kick Game</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to bottom, #4CAF50, #1B5E20);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    height: 100vh;
+  }
+  h1 {
+    margin-top: 20px;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+  }
+
+  #gameArea {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    background: #43a047;
+    margin-top: 20px;
+    border: 4px solid white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  #goal {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    width: 300px;
+    height: 60px;
+    margin-left: -150px;
+    border: 5px solid white;
+    border-radius: 5px;
+  }
+
+  #goalie {
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    width: 60px;
+    height: 50px;
+    margin-left: -30px;
+    background: #0000ff;
+    border-radius: 5px;
+    transition: left 0.1s;
+  }
+
+  #ball {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    background: radial-gradient(circle at 30% 30%, white 60%, #ccc 100%);
+    border-radius: 50%;
+    transition: all 0.5s;
+  }
+
+  #powerBar {
+    width: 300px;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+
+  #powerFill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #ffeb3b, #f44336);
+    transition: width 0.1s;
+  }
+
+  #controls {
+    margin-top: 10px;
+  }
+
+  button {
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #fdd835;
+  }
+
+  #message {
+    margin-top: 15px;
+    font-size: 1.3em;
+  }
+</style>
+</head>
+<body>
+  <h1>⚽ Penalty & Free Kick Game</h1>
+  <div id="gameArea">
+    <div id="goal"></div>
+    <div id="goalie"></div>
+    <div id="ball"></div>
+  </div>
+
+  <div id="powerBar">
+    <div id="powerFill"></div>
+  </div>
+
+  <div id="controls">
+    <button id="shootBtn">Shoot!</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <div id="message">Press "Shoot!" to start your penalty.</div>
+
+<script>
+  const goalie = document.getElementById('goalie');
+  const ball = document.getElementById('ball');
+  const shootBtn = document.getElementById('shootBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const powerFill = document.getElementById('powerFill');
+  const message = document.getElementById('message');
+
+  let power = 0;
+  let increasing = true;
+  let powerInterval;
+  let goalieDirection = 1;
+  let goalieMoveInterval;
+  let shotActive = false;
+
+  // Move goalie side to side
+  function moveGoalie() {
+    goalieMoveInterval = setInterval(() => {
+      let left = parseInt(goalie.style.left) || 50;
+      left += goalieDirection * 2;
+      if (left > 80 || left < 20) goalieDirection *= -1;
+      goalie.style.left = left + "%";
+    }, 30);
+  }
+
+  function startPowerBar() {
+    power = 0;
+    increasing = true;
+    powerInterval = setInterval(() => {
+      if (increasing) power += 3;
+      else power -= 3;
+
+      if (power >= 100) increasing = false;
+      if (power <= 0) increasing = true;
+
+      powerFill.style.width = power + "%";
+    }, 50);
+  }
+
+  function shoot() {
+    if (shotActive) return;
+    shotActive = true;
+    clearInterval(powerInterval);
+
+    // Random horizontal shot offset
+    const shotX = Math.random() * 200 - 100; 
+    const goalieRect = goalie.getBoundingClientRect();
+    const ballRect = ball.getBoundingClientRect();
+
+    // Animate ball to goal
+    ball.style.transition = "all 0.6s ease-out";
+    ball.style.bottom = "380px";
+    ball.style.left = `calc(50% + ${shotX}px)`;
+
+    // Determine hit or goal after travel
+    setTimeout(() => {
+      const ballCenterX = ball.getBoundingClientRect().left + 20;
+      const goalieLeft = goalieRect.left;
+      const goalieRight = goalieRect.right;
+
+      let goalScored = true;
+      if (ballCenterX > goalieLeft && ballCenterX < goalieRight) {
+        goalScored = false;
+      }
+
+      message.textContent = goalScored ? "🥅 GOAL!!! ⚽🔥" : "😢 Saved by the keeper!";
+      if (goalScored) message.style.color = "#ffeb3b";
+      else message.style.color = "#ff4444";
+    }, 600);
+  }
+
+  function resetGame() {
+    shotActive = false;
+    ball.style.transition = "none";
+    ball.style.bottom = "50px";
+    ball.style.left = "50%";
+    message.textContent = "Press 'Shoot!' to start your penalty.";
+    message.style.color = "white";
+    powerFill.style.width = "0%";
+    clearInterval(powerInterval);
+  }
+
+  shootBtn.addEventListener('mousedown', () => {
+    if (!shotActive) startPowerBar();
+  });
+
+  shootBtn.addEventListener('mouseup', () => {
+    shoot();
+  });
+
+  resetBtn.addEventListener('click', resetGame);
+
+  moveGoalie();
+</script>
+</body>
+</html

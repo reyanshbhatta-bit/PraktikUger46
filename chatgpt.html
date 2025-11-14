@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find the Hidden Box</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #1a1a40, #4a148c);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 2em;
+    }
+
+    h1 {
+      margin-bottom: 0.3em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin-top: 2em;
+    }
+
+    button {
+      width: 100px;
+      height: 100px;
+      background-color: #673ab7;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #9575cd;
+      transform: scale(1.05);
+    }
+
+    .winner {
+      background-color: #00e676 !important;
+      transform: scale(1.1);
+    }
+
+    .loser {
+      background-color: #d50000 !important;
+      transform: scale(0.95);
+    }
+
+    .message {
+      margin-top: 1.5em;
+      font-size: 1.5em;
+      color: #00e676;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .reset-btn {
+      background: #ffca28;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1em;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .reset-btn:hover {
+      background: #ffd54f;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Find the Hidden Box!</h1>
+  <p>Click a box to see if you can find the hidden one.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="message" id="message">🎉 You found it!</div>
+  <button class="reset-btn" id="resetBtn">🔁 Play Again</button>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const message = document.getElementById('message');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let winningIndex;
+
+    function createGrid() {
+      grid.innerHTML = '';
+      message.classList.remove('show');
+
+      // Pick a random winner (0–8)
+      winningIndex = Math.floor(Math.random() * 9);
+
+      // Create 9 buttons
+      for (let i = 0; i < 9; i++) {
+        const btn = document.createElement('button');
+        btn.addEventListener('click', () => handleClick(btn, i));
+        grid.appendChild(btn);
+      }
+    }
+
+    function handleClick(button, index) {
+      const buttons = grid.querySelectorAll('button');
+
+      // Disable all buttons after a click
+      buttons.forEach(b => (b.disabled = true));
+
+      if (index === winningIndex) {
+        button.classList.add('winner');
+        message.classList.add('show');
+      } else {
+        button.classList.add('loser');
+      }
+    }
+
+    resetBtn.addEventListener('click', createGrid);
+
+    // Initialize the grid
+    createGrid();
+  </script>
+</body>
+</html>
